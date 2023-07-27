@@ -9,7 +9,7 @@
   */
 const base64 = require('base-64');
 const bcrypt = require('bcrypt');
-const { userModel } = require('../models/index');
+const { users } = require('../../models');
 const basic = async (req, res, next) => {
   let basicHeaderParts = req.headers.authorization.split(' '); // ['Basic', 'am9objpmb28=']
   let encodedString = basicHeaderParts.pop(); // am9objpmb28=
@@ -24,7 +24,7 @@ const basic = async (req, res, next) => {
               3. Either we're valid or we throw an error
             */
   try {
-    const user = await userModel.findOne({ where: { username: username } });
+    const user = await users.findOne({ where: { username: username } });
     const valid = await bcrypt.compare(password, user.password);
     if (valid) {
       // if I have a valid user attach the user to the request

@@ -1,4 +1,4 @@
-const { userModel } = require('../models');
+const { users } = require('../../models');
 // middleware function
 
 const bearer = async (req, res, next) => {
@@ -15,7 +15,7 @@ const bearer = async (req, res, next) => {
     const [authType, token] = req.headers.authorization.split(' ');
     if (authType === 'Bearer') {
       // check to see if this is a valid token
-      let validUser = await userModel.authenticateBearer(token);
+      let validUser = await users.authenticateBearer(token);
       if (validUser) {
         req.user = validUser;
         next();
